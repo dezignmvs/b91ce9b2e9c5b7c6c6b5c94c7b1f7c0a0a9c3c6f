@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ImageHub | Professional Cloud</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/cloud.png">
+    <title>Dezign.mvs</title>
+    <!-- Iconify Script -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💽</text></svg>">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -143,10 +145,10 @@
     <aside class="w-64 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-r border-slate-200 dark:border-dark-border flex-col z-20 hidden md:flex shadow-subtle">
         <div class="p-6 desktop-nav">
             <div class="flex items-center gap-3 mb-8 px-2">
-                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-md">
-                    <i class="ph-bold ph-cloud text-lg"></i>
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-md pt-1">
+                    <iconify-icon icon="streamline-color:database-subtract-2-raid-storage-code-disk-programming-database-array-hard-disc-minus-flat" width="20" height="20"></iconify-icon>
                 </div>
-                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">ImageHub</h1>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Dezign.mvs</h1>
             </div>
 
             <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">Overview</div>
@@ -193,14 +195,15 @@
         </div>
     </aside>
 
-    <!-- Mobile Header (Top Bar) -->
+    <!-- Mobile Header (Top Bar - Simplified) -->
     <div class="md:hidden fixed top-0 w-full bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-dark-border z-30 flex items-center justify-between p-3 px-4 shadow-sm">
         <div class="flex items-center gap-2">
-            <div class="w-7 h-7 rounded bg-brand-600 flex items-center justify-center text-white">
-                <i class="ph-bold ph-cloud text-base"></i>
+            <div class="w-7 h-7 rounded bg-brand-600 flex items-center justify-center text-white pt-1">
+                <iconify-icon icon="streamline-color:database-subtract-2-raid-storage-code-disk-programming-database-array-hard-disc-minus-flat" width="18" height="18"></iconify-icon>
             </div>
-            <span class="font-bold text-base text-slate-900 dark:text-white">ImageHub</span>
+            <span class="font-bold text-base text-slate-900 dark:text-white">Dezign.mvs</span>
         </div>
+        <!-- Settings shortcut for mobile -->
         <button onclick="window.router('settings')" class="text-slate-500 dark:text-slate-400 p-2 rounded-md active:bg-slate-100 dark:active:bg-dark-surface">
             <i class="ph ph-gear text-xl"></i>
         </button>
@@ -217,11 +220,14 @@
                 <i class="ph ph-images text-2xl"></i>
                 <span class="text-[10px] font-medium">Gallery</span>
             </button>
+            
+            <!-- Center Upload Button -->
             <button onclick="window.router('upload')" id="mob-nav-upload" class="nav-item relative -top-5 flex flex-col items-center justify-center">
                 <div class="w-14 h-14 rounded-full bg-brand-600 text-white shadow-lg flex items-center justify-center border-4 border-slate-50 dark:border-dark-bg transform transition-transform active:scale-95">
                     <i class="ph-bold ph-plus text-2xl"></i>
                 </div>
             </button>
+
             <button onclick="window.router('sections')" id="mob-nav-sections" class="nav-item flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                 <i class="ph ph-folders text-2xl"></i>
                 <span class="text-[10px] font-medium">Folders</span>
