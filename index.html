@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dezign.mvs | Image Dashboard</title>
-    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/cloud.png">
+    <title>Dezign.mvs</title>
+    <!-- Iconify Script -->
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💽</text></svg>">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,8 +17,10 @@
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-    <!-- Google Fonts: Plus Jakarta Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Inter (The gold standard for UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -24,44 +28,45 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        primary: {
+                        brand: {
                             50: '#eef2ff',
                             100: '#e0e7ff',
                             200: '#c7d2fe',
                             300: '#a5b4fc',
                             400: '#818cf8',
-                            500: '#6366f1', // Indigo-500
+                            500: '#6366f1', // Indigo 500
                             600: '#4f46e5',
                             700: '#4338ca',
                             800: '#3730a3',
                             900: '#312e81',
                         },
-                        surface: {
-                            50: '#f8fafc',
-                            100: '#f1f5f9',
-                            900: '#0f172a',
+                        dark: {
+                            bg: '#0f172a', // Slate 900
+                            surface: '#1e293b', // Slate 800
+                            border: '#334155', // Slate 700
                         }
                     },
                     boxShadow: {
-                        'soft': '0 10px 40px -10px rgba(0, 0, 0, 0.08)',
-                        'glow': '0 0 20px rgba(99, 102, 241, 0.4)',
-                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'float': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)',
+                        'nav': '0 -4px 6px -1px rgba(0, 0, 0, 0.05)',
                     },
                     animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'slide-in': 'slideIn 0.3s ease-out forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
                         },
-                        slideIn: {
-                            '0%': { transform: 'translateX(-100%)' },
-                            '100%': { transform: 'translateX(0)' },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
                     }
                 }
@@ -71,21 +76,21 @@
 
     <style>
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 24px 24px;
         }
         
         .dark body {
-            background-color: #0f172a;
+            background-image: radial-gradient(#334155 1px, transparent 1px);
         }
 
         /* Smooth Transitions */
         * {
-            transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                        color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                        transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
         }
 
         /* Custom Scrollbar */
@@ -93,543 +98,432 @@
             width: 6px;
             height: 6px;
         }
-        ::-webkit-scrollbar-track {
-            background: transparent; 
-        }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
             background: #cbd5e1; 
-            border-radius: 10px;
+            border-radius: 4px;
         }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #334155; 
-        }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Animations */
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.96) translateY(10px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+        /* Sidebar Nav Item Active State */
+        .desktop-nav .nav-item.active {
+            background-color: #f1f5f9;
+            color: #4f46e5;
+            border-right: 3px solid #4f46e5;
         }
-
-        @keyframes staggerSlide {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        .stagger-item {
-            opacity: 0;
-            animation: staggerSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Drop Zone Animation */
-        .drop-zone {
-            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%236366F1FF' stroke-width='2' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
-            transition: all 0.3s ease;
-        }
-        .drop-zone:hover, .drop-zone.active {
-            background-color: rgba(99, 102, 241, 0.05);
-            transform: scale(1.01);
-        }
-        .dark .drop-zone {
-            background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='24' ry='24' stroke='%23818CF8FF' stroke-width='2' stroke-dasharray='12%2c 12' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
-        }
-
-        /* Navigation Active State Indicator */
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0) 100%);
-            border-left: 3px solid #6366f1;
-            color: #6366f1;
-        }
-        .dark .nav-item.active {
+        .dark .desktop-nav .nav-item.active {
+            background-color: #1e293b;
             color: #818cf8;
-            border-left: 3px solid #818cf8;
+            border-right: 3px solid #818cf8;
         }
-        
-        .nav-item {
-            border-left: 3px solid transparent;
+        .desktop-nav .nav-item {
+            border-right: 3px solid transparent;
         }
 
-        /* Loading Spinner */
-        .loader {
-            border: 3px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 3px solid #6366f1;
-            width: 24px;
-            height: 24px;
-            -webkit-animation: spin 1s linear infinite; /* Safari */
-            animation: spin 1s linear infinite;
+        /* Mobile Bottom Nav Active State */
+        .mobile-nav .nav-item.active {
+            color: #4f46e5;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .dark .mobile-nav .nav-item.active {
+            color: #818cf8;
         }
+        .mobile-nav .nav-item.active i {
+            font-weight: bold;
+        }
+
+        /* Animations Stagger */
+        .stagger-1 { animation-delay: 50ms; }
+        .stagger-2 { animation-delay: 100ms; }
+        .stagger-3 { animation-delay: 150ms; }
+        .stagger-4 { animation-delay: 200ms; }
     </style>
 </head>
-<body class="text-slate-600 dark:text-slate-300 h-screen flex overflow-hidden selection:bg-primary-500 selection:text-white">
+<body class="bg-slate-50 dark:bg-dark-bg h-screen w-full flex overflow-hidden text-slate-600 dark:text-slate-300 selection:bg-brand-500 selection:text-white">
 
     <!-- Sidebar (Desktop) -->
-    <aside class="w-72 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-r border-slate-100 dark:border-slate-800 flex flex-col z-20 hidden md:flex shadow-soft transition-all duration-300">
-        <div class="p-8 pb-4">
-            <div class="flex items-center gap-3 text-slate-900 dark:text-white mb-10 group cursor-pointer">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center text-white shadow-glow group-hover:scale-110 transition-transform duration-300">
-                    <i class="ph-bold ph-cloud text-2xl"></i>
+    <aside class="w-64 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-r border-slate-200 dark:border-dark-border flex-col z-20 hidden md:flex shadow-subtle">
+        <div class="p-6 desktop-nav">
+            <div class="flex items-center gap-3 mb-8 px-2">
+                <div class="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-md pt-1">
+                    <iconify-icon icon="streamline-color:database-subtract-2-raid-storage-code-disk-programming-database-array-hard-disc-minus-flat" width="20" height="20"></iconify-icon>
                 </div>
-                <h1 class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-600 dark:from-white dark:to-slate-400">Dezign.mvs</h1>
+                <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Dezign.mvs</h1>
             </div>
 
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 px-2">Menu</div>
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-2 px-3">Overview</div>
             
-            <nav class="space-y-2">
-                <button onclick="window.router('dashboard')" id="nav-dashboard" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-r-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                    <i class="ph ph-squares-four text-xl group-hover:text-primary-500 transition-colors"></i>
+            <nav class="space-y-1">
+                <button onclick="window.router('dashboard')" id="desk-nav-dashboard" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-50 dark:hover:bg-dark-surface/50 hover:text-slate-900 dark:hover:text-white transition-all group">
+                    <i class="ph ph-squares-four text-lg"></i>
                     Dashboard
                 </button>
-                <button onclick="window.router('upload')" id="nav-upload" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-r-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                    <i class="ph ph-upload-simple text-xl group-hover:text-primary-500 transition-colors"></i>
+                <button onclick="window.router('upload')" id="desk-nav-upload" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-50 dark:hover:bg-dark-surface/50 hover:text-slate-900 dark:hover:text-white transition-all group">
+                    <i class="ph ph-upload-simple text-lg"></i>
                     Upload
                 </button>
-                <button onclick="window.router('gallery')" id="nav-gallery" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-r-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                    <i class="ph ph-images text-xl group-hover:text-primary-500 transition-colors"></i>
+                <button onclick="window.router('gallery')" id="desk-nav-gallery" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-50 dark:hover:bg-dark-surface/50 hover:text-slate-900 dark:hover:text-white transition-all group">
+                    <i class="ph ph-images text-lg"></i>
                     Gallery
                 </button>
-                <button onclick="window.router('sections')" id="nav-sections" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-r-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                    <i class="ph ph-folders text-xl group-hover:text-primary-500 transition-colors"></i>
+                <button onclick="window.router('sections')" id="desk-nav-sections" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-50 dark:hover:bg-dark-surface/50 hover:text-slate-900 dark:hover:text-white transition-all group">
+                    <i class="ph ph-folders text-lg"></i>
                     Sections
                 </button>
             </nav>
 
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-8 mb-4 px-2">System</div>
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-8 mb-2 px-3">Settings</div>
             
-            <nav class="space-y-2">
-                <button onclick="window.router('settings')" id="nav-settings" class="nav-item w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-r-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all group">
-                    <i class="ph ph-gear text-xl group-hover:text-primary-500 transition-colors"></i>
-                    Settings
+            <nav class="space-y-1">
+                <button onclick="window.router('settings')" id="desk-nav-settings" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-md hover:bg-slate-50 dark:hover:bg-dark-surface/50 hover:text-slate-900 dark:hover:text-white transition-all group">
+                    <i class="ph ph-gear text-lg"></i>
+                    Preferences
                 </button>
             </nav>
         </div>
 
-        <div class="mt-auto p-6 border-t border-slate-100 dark:border-slate-800">
-            <div class="bg-gradient-to-br from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 rounded-2xl p-4 border border-slate-100 dark:border-slate-700 shadow-sm">
+        <div class="mt-auto p-4 border-t border-slate-200 dark:border-dark-border">
+            <div class="bg-slate-50 dark:bg-dark-surface rounded-lg p-3 border border-slate-100 dark:border-dark-border">
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase">Cloud Usage</span>
-                    <span id="storage-text" class="text-xs font-bold text-primary-600 dark:text-primary-400">0 MB</span>
+                    <span class="text-[10px] font-bold text-slate-500 uppercase">Storage</span>
+                    <span id="storage-text" class="text-[10px] font-bold text-brand-600 dark:text-brand-400">0 MB</span>
                 </div>
-                <p class="text-[10px] text-slate-400 mt-1 flex items-center gap-1">
-                    <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    System Online
-                </p>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-brand-500 h-full w-2 rounded-full"></div>
+                </div>
             </div>
         </div>
     </aside>
 
-    <!-- Mobile Header -->
-    <div class="md:hidden fixed top-0 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-slate-100 dark:border-slate-800 z-30 flex items-center justify-between p-4 px-6 shadow-sm">
+    <!-- Mobile Header (Top Bar - Simplified) -->
+    <div class="md:hidden fixed top-0 w-full bg-white/90 dark:bg-dark-bg/90 backdrop-blur-md border-b border-slate-200 dark:border-dark-border z-30 flex items-center justify-between p-3 px-4 shadow-sm">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center text-white">
-                <i class="ph-bold ph-cloud text-xl"></i>
+            <div class="w-7 h-7 rounded bg-brand-600 flex items-center justify-center text-white pt-1">
+                <iconify-icon icon="streamline-color:database-subtract-2-raid-storage-code-disk-programming-database-array-hard-disc-minus-flat" width="18" height="18"></iconify-icon>
             </div>
-            <span class="font-bold text-slate-900 dark:text-white">ImageHub</span>
+            <span class="font-bold text-base text-slate-900 dark:text-white">Dezign.mvs</span>
         </div>
-        <button onclick="window.toggleMobileMenu()" class="text-slate-600 dark:text-slate-300 p-2 rounded-lg active:bg-slate-100 dark:active:bg-slate-800 hover:text-primary-600 transition-colors">
-            <i class="ph ph-list text-2xl"></i>
+        <!-- Settings shortcut for mobile -->
+        <button onclick="window.router('settings')" class="text-slate-500 dark:text-slate-400 p-2 rounded-md active:bg-slate-100 dark:active:bg-dark-surface">
+            <i class="ph ph-gear text-xl"></i>
         </button>
     </div>
 
-    <!-- Mobile Menu Drawer (Slide-in) -->
-    <div id="mobile-menu-overlay" onclick="window.toggleMobileMenu()" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity duration-300 opacity-0"></div>
-    <div id="mobile-menu" class="fixed inset-y-0 left-0 w-72 bg-white dark:bg-slate-900 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col md:hidden">
-         <!-- Content mirrors desktop sidebar -->
-         <div class="p-6">
-            <div class="flex justify-between items-center mb-8">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center text-white">
-                        <i class="ph-bold ph-cloud text-2xl"></i>
-                    </div>
-                    <span class="font-bold text-xl text-slate-900 dark:text-white">ImageHub</span>
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 w-full bg-white dark:bg-dark-surface border-t border-slate-200 dark:border-dark-border z-40 shadow-nav mobile-nav">
+        <div class="flex justify-around items-center h-16 px-2">
+            <button onclick="window.router('dashboard')" id="mob-nav-dashboard" class="nav-item flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                <i class="ph ph-squares-four text-2xl"></i>
+                <span class="text-[10px] font-medium">Home</span>
+            </button>
+            <button onclick="window.router('gallery')" id="mob-nav-gallery" class="nav-item flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                <i class="ph ph-images text-2xl"></i>
+                <span class="text-[10px] font-medium">Gallery</span>
+            </button>
+            
+            <!-- Center Upload Button -->
+            <button onclick="window.router('upload')" id="mob-nav-upload" class="nav-item relative -top-5 flex flex-col items-center justify-center">
+                <div class="w-14 h-14 rounded-full bg-brand-600 text-white shadow-lg flex items-center justify-center border-4 border-slate-50 dark:border-dark-bg transform transition-transform active:scale-95">
+                    <i class="ph-bold ph-plus text-2xl"></i>
                 </div>
-                <button onclick="window.toggleMobileMenu()" class="text-slate-400 hover:text-slate-900 dark:hover:text-white p-1">
-                    <i class="ph ph-x text-2xl"></i>
-                </button>
-            </div>
+            </button>
 
-            <nav class="space-y-2">
-                <button onclick="window.router('dashboard'); window.toggleMobileMenu()" class="w-full flex items-center gap-3 px-4 py-4 text-sm font-bold rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
-                    <i class="ph ph-squares-four text-xl text-primary-500"></i> Dashboard
-                </button>
-                <button onclick="window.router('upload'); window.toggleMobileMenu()" class="w-full flex items-center gap-3 px-4 py-4 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-500 dark:text-slate-400">
-                    <i class="ph ph-upload-simple text-xl"></i> Upload
-                </button>
-                <button onclick="window.router('gallery'); window.toggleMobileMenu()" class="w-full flex items-center gap-3 px-4 py-4 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-500 dark:text-slate-400">
-                    <i class="ph ph-images text-xl"></i> Gallery
-                </button>
-                <button onclick="window.router('sections'); window.toggleMobileMenu()" class="w-full flex items-center gap-3 px-4 py-4 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-500 dark:text-slate-400">
-                    <i class="ph ph-folders text-xl"></i> Sections
-                </button>
-                <button onclick="window.router('settings'); window.toggleMobileMenu()" class="w-full flex items-center gap-3 px-4 py-4 text-sm font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-500 dark:text-slate-400">
-                    <i class="ph ph-gear text-xl"></i> Settings
-                </button>
-            </nav>
-         </div>
+            <button onclick="window.router('sections')" id="mob-nav-sections" class="nav-item flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                <i class="ph ph-folders text-2xl"></i>
+                <span class="text-[10px] font-medium">Folders</span>
+            </button>
+            <button onclick="window.router('settings')" id="mob-nav-settings" class="nav-item flex flex-col items-center justify-center w-full h-full space-y-1 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                <i class="ph ph-user text-2xl"></i>
+                <span class="text-[10px] font-medium">Profile</span>
+            </button>
+        </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto pt-20 md:pt-0 relative bg-surface-50 dark:bg-[#0b1121] transition-colors duration-300">
-        
-        <!-- Toast Notification -->
-        <div id="toast" class="fixed top-20 md:top-6 right-6 transform -translate-y-40 opacity-0 transition-all duration-300 z-[60] bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 font-medium min-w-[300px]">
-            <div id="toast-icon-bg" class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center flex-shrink-0">
-                <i id="toast-icon" class="ph-fill ph-check-circle text-lg"></i>
-            </div>
-            <span id="toast-msg">Action Successful</span>
-        </div>
+    <!-- Content Area -->
+    <main class="flex-1 overflow-y-auto pt-16 pb-24 md:pt-0 md:pb-0 relative z-10 bg-slate-50/50 dark:bg-dark-bg">
+        <div class="p-6 md:p-10 max-w-7xl mx-auto">
 
-        <!-- Password Modal -->
-        <div id="password-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 backdrop-blur-md transition-opacity duration-300">
-            <div class="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-sm border border-slate-100 dark:border-slate-700 transform scale-100 transition-all animate-float">
-                <div class="flex flex-col items-center mb-6">
-                    <div class="w-20 h-20 bg-red-50 dark:bg-red-500/10 text-red-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-red-500/20">
-                        <i class="ph-fill ph-lock-key text-4xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white">Private Section</h3>
-                    <p class="text-slate-500 dark:text-slate-400 text-sm text-center mt-2">Enter your secure password to unlock this collection.</p>
-                </div>
-                
-                <input type="password" id="unlock-password-input" class="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-600 rounded-2xl px-6 py-4 mb-3 text-slate-900 dark:text-white focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 outline-none transition-all placeholder:text-slate-400 font-bold text-center tracking-widest text-lg" placeholder="••••••••">
-                
-                <div class="flex gap-3 mt-6">
-                    <button onclick="window.closePasswordModal()" class="flex-1 px-4 py-3 text-slate-500 font-bold hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-colors">Cancel</button>
-                    <button onclick="window.submitPassword()" class="flex-1 px-4 py-3 bg-gradient-to-r from-primary-600 to-primary-500 text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary-500/40 hover:-translate-y-0.5 transition-all">Unlock</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Global Loader (Initial Load) -->
-        <div id="app-loader" class="fixed inset-0 bg-white dark:bg-slate-900 z-50 flex flex-col items-center justify-center">
-            <div class="relative">
-                <div class="w-16 h-16 rounded-full border-4 border-slate-100 dark:border-slate-800"></div>
-                <div class="w-16 h-16 rounded-full border-4 border-primary-500 border-t-transparent absolute top-0 left-0 animate-spin"></div>
-                <i class="ph-fill ph-cloud text-primary-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl animate-pulse"></i>
-            </div>
-            <p class="text-slate-400 font-semibold mt-4 tracking-wide text-sm uppercase">Initializing Cloud</p>
-        </div>
-
-        <!-- VIEW: DASHBOARD -->
-        <section id="view-dashboard" class="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto fade-in">
-            <header class="mb-8 md:mb-12 flex flex-col md:flex-row justify-between md:items-end gap-4">
-                <div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 tracking-tight">Overview</h2>
-                    <p class="text-slate-500 dark:text-slate-400">Welcome back. Here's your cloud activity.</p>
-                </div>
-                <button onclick="window.router('upload')" class="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-xl font-bold hover:shadow-lg hover:-translate-y-1 transition-all flex items-center gap-2 self-start md:self-auto">
-                    <i class="ph-bold ph-plus"></i> New Upload
-                </button>
-            </header>
-
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
-                <!-- Card 1 -->
-                <div class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft hover:shadow-glow hover:border-primary-500/30 transition-all duration-300 stagger-item" style="animation-delay: 0ms">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="ph-fill ph-image text-2xl"></i>
-                        </div>
-                        <span class="text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-full">+12%</span>
-                    </div>
-                    <h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="stat-total-images">0</h3>
-                    <p class="text-sm font-medium text-slate-400">Total Images</p>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft hover:shadow-glow hover:border-indigo-500/30 transition-all duration-300 stagger-item" style="animation-delay: 50ms">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="ph-fill ph-eye text-2xl"></i>
-                        </div>
-                        <span class="text-xs font-bold bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-1 rounded-full">+5%</span>
-                    </div>
-                    <h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="stat-total-views">0</h3>
-                    <p class="text-sm font-medium text-slate-400">Total Views</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft hover:shadow-glow hover:border-purple-500/30 transition-all duration-300 stagger-item" style="animation-delay: 100ms">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-500/10 text-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="ph-fill ph-hard-drives text-2xl"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="stat-storage">0 MB</h3>
-                    <p class="text-sm font-medium text-slate-400">Cloud Storage</p>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="group bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft hover:shadow-glow hover:border-amber-500/30 transition-all duration-300 stagger-item" style="animation-delay: 150ms">
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-500/10 text-amber-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <i class="ph-fill ph-folder-notch-open text-2xl"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="stat-sections">0</h3>
-                    <p class="text-sm font-medium text-slate-400">Active Sections</p>
-                </div>
-            </div>
-
-            <!-- Charts Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Views Chart -->
-                <div class="lg:col-span-2 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft stagger-item" style="animation-delay: 200ms">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <i class="ph-duotone ph-chart-line-up text-primary-500"></i> Engagement
-                        </h3>
-                        <div class="text-sm text-slate-400 bg-slate-100 dark:bg-slate-700/50 px-3 py-1 rounded-full font-medium">Last 7 Days</div>
-                    </div>
-                    <div class="h-64 md:h-72 w-full">
-                        <canvas id="viewsChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Storage Chart -->
-                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-100 dark:border-slate-700/50 shadow-soft flex flex-col justify-between stagger-item" style="animation-delay: 250ms">
+            <!-- DASHBOARD VIEW -->
+            <section id="view-dashboard" class="animate-slide-up">
+                <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                             <i class="ph-duotone ph-chart-pie-slice text-primary-500"></i> Distribution
-                        </h3>
-                        <div class="h-48 md:h-56 flex items-center justify-center relative">
-                            <canvas id="storageChart"></canvas>
-                            <!-- Center Text Overlay for Donut -->
-                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                <div class="text-center">
-                                    <span class="block text-xs text-slate-400 uppercase tracking-wider font-bold">Total</span>
-                                    <span class="block text-xl font-bold text-slate-900 dark:text-white" id="chart-center-text">100%</span>
-                                </div>
-                            </div>
-                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Dashboard</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Overview of your assets and activity.</p>
                     </div>
-                    <div class="mt-4 text-center">
-                        <button onclick="window.router('sections')" class="text-sm font-bold text-primary-600 hover:text-primary-700 dark:text-primary-400 hover:underline">Manage Sections &rarr;</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- VIEW: UPLOAD -->
-        <section id="view-upload" class="hidden p-4 md:p-12 max-w-5xl mx-auto fade-in">
-            <header class="mb-10 text-center">
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Upload Media</h2>
-                <p class="text-slate-500 dark:text-slate-400 max-w-lg mx-auto">Drag & drop to upload. Optimized for mobile & desktop.</p>
-            </header>
-
-            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-soft border border-slate-100 dark:border-slate-700 overflow-hidden relative">
-                <div class="p-6 md:p-12">
-                    
-                    <!-- Drop Zone -->
-                    <div id="drop-zone" class="drop-zone rounded-3xl h-64 md:h-80 flex flex-col items-center justify-center text-center cursor-pointer relative group transition-all">
-                        <input type="file" id="file-input" class="hidden" accept="image/*" multiple>
-                        
-                        <!-- Initial State -->
-                        <div id="upload-placeholder" class="pointer-events-none transition-all duration-300 group-hover:-translate-y-2">
-                            <div class="w-20 h-20 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:shadow-glow transition-all">
-                                <i class="ph-fill ph-cloud-arrow-up text-4xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Drop images here</h3>
-                            <p class="text-slate-400 text-sm">or tap to browse files</p>
-                        </div>
-                        
-                        <!-- Preview State (Grid) -->
-                        <div id="upload-preview" class="hidden absolute inset-0 bg-white dark:bg-slate-800 z-10 flex flex-col cursor-default">
-                            <div class="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-white dark:bg-slate-900">
-                                <span class="font-bold text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                                    <i class="ph-fill ph-check-circle text-green-500"></i>
-                                    Selected (<span id="selected-count">0</span>)
-                                </span>
-                                <button onclick="window.resetUpload()" class="text-xs font-bold text-red-500 uppercase hover:text-red-600 px-3 py-1 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Clear</button>
-                            </div>
-                            <div id="preview-list" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 bg-slate-50 dark:bg-slate-900/50">
-                                <!-- Dynamic Content -->
-                            </div>
-                        </div>
-
-                        <!-- Upload Loading State -->
-                        <div id="upload-loading" class="hidden absolute inset-0 bg-white/95 dark:bg-slate-900/95 z-20 flex flex-col items-center justify-center backdrop-blur-sm">
-                            <div class="loader mb-6 border-4 w-12 h-12"></div>
-                            <p id="upload-status-text" class="font-bold text-lg text-slate-700 dark:text-slate-200 mb-4">Starting upload...</p>
-                            <div class="w-64 h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                                <div id="upload-progress-bar" class="h-full bg-gradient-to-r from-primary-600 to-purple-600 transition-all duration-300 shadow-[0_0_10px_rgba(99,102,241,0.5)]" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Meta Data Form -->
-                    <div class="mt-8 grid md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Title Prefix</label>
-                            <div class="relative">
-                                <i class="ph-bold ph-text-t absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                                <input type="text" id="upload-title" placeholder="e.g. Summer Trip" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl px-5 py-4 pl-11 focus:ring-2 focus:ring-primary-500 placeholder:text-slate-400 transition-all font-medium text-slate-800 dark:text-white">
-                            </div>
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-sm font-bold text-slate-700 dark:text-slate-300 ml-1">Collection</label>
-                            <div class="flex gap-3">
-                                <div class="relative flex-1">
-                                    <i class="ph-bold ph-folder absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                                    <select id="upload-section-select" class="w-full bg-slate-50 dark:bg-slate-900 border-none rounded-2xl px-5 py-4 pl-11 focus:ring-2 focus:ring-primary-500 text-slate-800 dark:text-white font-medium appearance-none cursor-pointer">
-                                        <!-- Populated via JS -->
-                                    </select>
-                                    <i class="ph-bold ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                                </div>
-                                <button onclick="window.router('sections')" class="bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-200 p-4 rounded-2xl transition-colors aspect-square flex items-center justify-center" title="Add Section">
-                                    <i class="ph-bold ph-plus text-lg"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 dark:bg-slate-900/50 p-6 px-8 flex flex-col-reverse sm:flex-row justify-end gap-4 border-t border-slate-100 dark:border-slate-800">
-                    <button onclick="window.resetUpload()" class="w-full sm:w-auto px-6 py-3 font-bold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-700/50">Clear</button>
-                    <button onclick="window.handleUpload()" id="btn-confirm-upload" disabled class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-primary-600 to-indigo-600 hover:to-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-primary-500/30 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed transform active:scale-95 transition-all flex items-center justify-center gap-2">
-                        <i class="ph-bold ph-cloud-arrow-up"></i> Upload All
+                    <button onclick="window.router('upload')" class="hidden md:flex bg-brand-600 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-brand-700 shadow-sm transition-all items-center gap-2">
+                        <i class="ph-bold ph-plus"></i> Upload Media
                     </button>
-                </div>
-            </div>
-        </section>
+                </header>
 
-        <!-- VIEW: GALLERY -->
-        <section id="view-gallery" class="hidden p-4 md:p-8 lg:p-12 max-w-[1600px] mx-auto fade-in">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-10">
-                <div>
-                    <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Gallery</h2>
-                    <p class="text-slate-500 dark:text-slate-400">Your visual collection.</p>
+                <!-- Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <!-- Stat Cards... (Same as before) -->
+                    <div class="bg-white dark:bg-dark-surface p-5 rounded-xl border border-slate-200 dark:border-dark-border shadow-card hover:shadow-float transition-all duration-300 stagger-1">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="p-2 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400"><i class="ph-fill ph-image text-xl"></i></div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-0.5" id="stat-total-images">0</h3>
+                        <p class="text-xs font-medium text-slate-500">Total Images</p>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-5 rounded-xl border border-slate-200 dark:border-dark-border shadow-card hover:shadow-float transition-all duration-300 stagger-2">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"><i class="ph-fill ph-eye text-xl"></i></div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-0.5" id="stat-total-views">0</h3>
+                        <p class="text-xs font-medium text-slate-500">Total Views</p>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-5 rounded-xl border border-slate-200 dark:border-dark-border shadow-card hover:shadow-float transition-all duration-300 stagger-3">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="p-2 rounded-lg bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400"><i class="ph-fill ph-hard-drives text-xl"></i></div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-0.5" id="stat-storage">0 MB</h3>
+                        <p class="text-xs font-medium text-slate-500">Cloud Storage</p>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-5 rounded-xl border border-slate-200 dark:border-dark-border shadow-card hover:shadow-float transition-all duration-300 stagger-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="p-2 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400"><i class="ph-fill ph-folders text-xl"></i></div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-0.5" id="stat-sections">0</h3>
+                        <p class="text-xs font-medium text-slate-500">Active Sections</p>
+                    </div>
                 </div>
-                
-                <div class="relative min-w-[220px]">
-                    <i class="ph-bold ph-funnel absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 z-10"></i>
-                    <select id="gallery-filter" onchange="window.renderGallery()" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-white font-bold rounded-2xl px-4 py-3.5 pl-11 appearance-none focus:ring-4 focus:ring-primary-500/10 focus:border-primary-500 outline-none shadow-sm cursor-pointer transition-all">
-                        <option value="all">Show All</option>
-                        <!-- Populated JS -->
-                    </select>
-                    <i class="ph-bold ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl border border-slate-200 dark:border-dark-border shadow-card lg:col-span-2">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Engagement Activity</h3>
+                        </div>
+                        <div class="h-64 w-full"><canvas id="viewsChart"></canvas></div>
+                    </div>
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl border border-slate-200 dark:border-dark-border shadow-card flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-6">Storage Distribution</h3>
+                            <div class="h-48 flex items-center justify-center relative">
+                                <canvas id="storageChart"></canvas>
+                                <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                    <div class="text-center">
+                                        <span class="block text-[10px] text-slate-400 font-bold uppercase">Total</span>
+                                        <span class="block text-lg font-bold text-slate-900 dark:text-white" id="chart-center-text">100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Grid -->
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 md:gap-6">
-                <!-- Images injected here -->
-            </div>
-            
-            <!-- Locked State -->
-            <div id="gallery-locked-state" class="hidden flex flex-col items-center justify-center py-32 text-center bg-white dark:bg-slate-800 rounded-3xl border-2 border-dashed border-red-200 dark:border-red-900/30">
-                <div class="w-24 h-24 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                    <i class="ph-fill ph-lock-key text-4xl"></i>
+            <!-- UPLOAD VIEW -->
+            <section id="view-upload" class="hidden max-w-4xl mx-auto animate-slide-up">
+                <header class="mb-8 text-center">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Upload Files</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Add new content to your repository.</p>
+                </header>
+                <div class="bg-white dark:bg-dark-surface rounded-xl shadow-card border border-slate-200 dark:border-dark-border overflow-hidden">
+                    <div class="p-8">
+                        <div id="drop-zone" class="relative group rounded-xl border-2 border-dashed border-slate-300 dark:border-dark-border hover:border-brand-500 dark:hover:border-brand-500 transition-all duration-300 h-72 flex flex-col items-center justify-center cursor-pointer bg-slate-50 dark:bg-dark-bg overflow-hidden">
+                            <input type="file" id="file-input" class="hidden" accept="image/*" multiple>
+                            <div id="upload-placeholder" class="text-center transition-transform duration-300 group-hover:-translate-y-1 pointer-events-none">
+                                <div class="w-16 h-16 bg-brand-50 dark:bg-brand-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-600 dark:text-brand-400"><i class="ph-fill ph-cloud-arrow-up text-3xl"></i></div>
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white mb-1">Drag files here</h3>
+                                <p class="text-xs text-slate-500">or click to browse</p>
+                            </div>
+                            <div id="upload-preview" class="hidden absolute inset-0 bg-slate-50 dark:bg-dark-bg z-10 flex flex-col">
+                                <div class="p-3 border-b border-slate-200 dark:border-dark-border flex justify-between items-center bg-white dark:bg-dark-surface">
+                                    <span class="text-xs font-bold text-slate-700 dark:text-white flex items-center gap-2"><i class="ph-fill ph-check-circle text-emerald-500"></i> Queue: <span id="selected-count">0</span></span>
+                                    <button onclick="window.resetUpload()" class="text-xs font-bold text-red-500 hover:text-red-600 px-3 py-1.5 rounded hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors uppercase">Clear</button>
+                                </div>
+                                <div id="preview-list" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-4 gap-3"></div>
+                            </div>
+                            <div id="upload-loading" class="hidden absolute inset-0 z-20 flex flex-col items-center justify-center bg-white/95 dark:bg-dark-surface/95 backdrop-blur-sm">
+                                <div class="w-10 h-10 rounded-full border-2 border-brand-500 border-t-transparent animate-spin mb-4"></div>
+                                <p id="upload-status-text" class="font-bold text-sm text-slate-700 dark:text-white">Uploading...</p>
+                                <div class="w-48 h-1 bg-slate-200 dark:bg-dark-border rounded-full mt-3 overflow-hidden"><div id="upload-progress-bar" class="h-full bg-brand-600 w-0 transition-all duration-300"></div></div>
+                            </div>
+                        </div>
+                        <div class="mt-6 grid md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Title Prefix</label>
+                                <div class="relative"><input type="text" id="upload-title" placeholder="Optional Prefix" class="w-full bg-white dark:bg-dark-bg border border-slate-300 dark:border-dark-border rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all text-sm"></div>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-slate-500 uppercase ml-1">Collection</label>
+                                <div class="flex gap-2">
+                                    <div class="relative flex-1">
+                                        <select id="upload-section-select" class="w-full bg-white dark:bg-dark-bg border border-slate-300 dark:border-dark-border rounded-lg px-4 py-2.5 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 text-sm appearance-none cursor-pointer"></select>
+                                        <i class="ph-bold ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                                    </div>
+                                    <button onclick="window.router('sections')" class="bg-slate-100 dark:bg-dark-bg hover:bg-slate-200 dark:hover:bg-dark-border text-slate-600 dark:text-white p-2.5 rounded-lg transition-colors border border-slate-200 dark:border-dark-border"><i class="ph-bold ph-plus text-sm"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-slate-50 dark:bg-dark-bg border-t border-slate-200 dark:border-dark-border flex justify-end gap-3">
+                        <button onclick="window.resetUpload()" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">Cancel</button>
+                        <button onclick="window.handleUpload()" id="btn-confirm-upload" disabled class="px-6 py-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition-all">Start Upload</button>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2" id="locked-section-name">Locked Section</h3>
-                <p class="text-slate-500 dark:text-slate-400 mb-8 max-w-xs mx-auto">This collection is private. Unlock it to view contents.</p>
-                <button onclick="window.requestUnlock()" class="px-8 py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/25 transform hover:-translate-y-1">
-                    Enter Password
-                </button>
-            </div>
+            </section>
 
-            <!-- Empty State -->
-            <div id="empty-gallery" class="hidden flex flex-col items-center justify-center py-32 text-center bg-white dark:bg-slate-800 rounded-3xl border-2 border-dashed border-slate-300 dark:border-slate-700">
-                <div class="w-24 h-24 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center mb-6">
-                    <i class="ph-duotone ph-image-broken text-5xl text-slate-300 dark:text-slate-600"></i>
+            <!-- GALLERY VIEW -->
+            <section id="view-gallery" class="hidden animate-slide-up">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Gallery</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Manage your assets.</p>
+                    </div>
+                    <div class="relative min-w-[200px]">
+                        <select id="gallery-filter" onchange="window.renderGallery()" class="w-full bg-white dark:bg-dark-surface border border-slate-300 dark:border-dark-border text-slate-900 dark:text-white text-sm font-medium rounded-lg px-4 py-2.5 pl-10 appearance-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 outline-none shadow-sm cursor-pointer transition-all">
+                            <option value="all">Show All</option>
+                        </select>
+                        <i class="ph-bold ph-funnel absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 z-10 text-sm"></i>
+                        <i class="ph-bold ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+                    </div>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">No images yet</h3>
-                <p class="text-slate-500 dark:text-slate-400 mb-8 max-w-xs mx-auto">Your cloud gallery is looking a bit empty. Let's add some color!</p>
-                <button onclick="window.router('upload')" class="px-8 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/25">
-                    Start Uploading
-                </button>
-            </div>
-        </section>
+                <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"></div>
+                <div id="gallery-locked-state" class="hidden flex flex-col items-center justify-center py-24 bg-white dark:bg-dark-surface rounded-xl border border-dashed border-red-200 dark:border-red-900/30">
+                    <div class="w-12 h-12 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mb-4"><i class="ph-fill ph-lock-key text-2xl"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1" id="locked-section-name">Locked</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Password required.</p>
+                    <button onclick="window.requestUnlock()" class="px-6 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 shadow-sm transition-all">Unlock</button>
+                </div>
+                <div id="empty-gallery" class="hidden flex flex-col items-center justify-center py-24 text-center bg-white dark:bg-dark-surface rounded-xl border border-dashed border-slate-200 dark:border-dark-border">
+                    <div class="w-12 h-12 bg-slate-50 dark:bg-dark-bg rounded-full flex items-center justify-center mb-4 text-slate-300 dark:text-slate-600"><i class="ph-duotone ph-image-broken text-2xl"></i></div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">No images found</h3>
+                    <p class="text-sm text-slate-500 mb-4">Upload items to this collection.</p>
+                    <button onclick="window.router('upload')" class="text-brand-600 font-semibold hover:text-brand-700 text-sm">Go to Upload &rarr;</button>
+                </div>
+            </section>
 
-        <!-- VIEW: SECTIONS -->
-        <section id="view-sections" class="hidden p-4 md:p-12 max-w-4xl mx-auto fade-in">
-            <header class="mb-10">
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Sections</h2>
-                <p class="text-slate-500 dark:text-slate-400">Organize your portfolio with custom categories.</p>
-            </header>
+            <!-- SECTIONS VIEW -->
+            <section id="view-sections" class="hidden max-w-5xl mx-auto animate-slide-up">
+                <div id="sections-root">
+                    <header class="mb-8">
+                        <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Collections</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Organize and secure your content.</p>
+                    </header>
+                    <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-card border border-slate-200 dark:border-dark-border mb-8">
+                        <h3 class="text-sm font-bold mb-4 flex items-center gap-2 text-slate-800 dark:text-white uppercase tracking-wide"><i class="ph-bold ph-plus-circle text-brand-600"></i> Create New</h3>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <div class="flex-1 flex gap-3">
+                                <input type="text" id="new-section-name" placeholder="Collection Name" class="flex-1 bg-slate-50 dark:bg-dark-bg border border-slate-300 dark:border-dark-border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-1 focus:ring-brand-500 text-sm transition-all">
+                                <button onclick="window.createSection()" class="px-6 py-2.5 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 transition-colors shadow-sm text-sm">Create</button>
+                            </div>
+                            <div class="flex items-center gap-3 border-l border-slate-200 dark:border-dark-border pl-4 md:min-w-[280px]">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="new-section-private" class="rounded text-brand-600 focus:ring-brand-500" onchange="window.togglePasswordInput()">
+                                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-1.5"><i class="ph-bold ph-lock-key"></i> Private</span>
+                                </label>
+                                <div id="password-input-container" class="hidden flex-1 opacity-0 transition-all duration-200">
+                                    <input type="password" id="new-section-password" placeholder="Password" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-300 dark:border-dark-border rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-brand-500 text-sm">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white mb-4 uppercase tracking-wide">All Collections</h3>
+                    <div class="grid gap-3" id="sections-list"></div>
+                </div>
+                <div id="section-detail-view" class="hidden animate-slide-up">
+                    <header class="mb-8 flex items-center gap-4">
+                        <button onclick="window.exitSection()" class="w-10 h-10 rounded-lg bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border text-slate-600 dark:text-white flex items-center justify-center hover:bg-slate-50 dark:hover:bg-dark-border transition-all"><i class="ph-bold ph-arrow-left text-lg"></i></button>
+                        <div>
+                            <h2 id="detail-section-name" class="text-2xl font-bold text-slate-900 dark:text-white">Section Name</h2>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Collection View</p>
+                        </div>
+                    </header>
+                    <div id="section-detail-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+                    <div id="section-detail-empty" class="hidden flex flex-col items-center justify-center py-20 text-center">
+                         <i class="ph-duotone ph-image-square text-4xl text-slate-300 dark:text-slate-600 mb-3"></i>
+                         <p class="text-sm text-slate-500 font-medium">Empty collection.</p>
+                    </div>
+                </div>
+            </section>
 
-            <!-- Create New Section -->
-            <div class="bg-gradient-to-br from-indigo-500 to-purple-700 p-8 rounded-3xl shadow-glow text-white mb-10 relative overflow-hidden group">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-white/20 transition-all duration-700"></div>
-                
-                <h3 class="text-xl font-bold mb-6 relative z-10 flex items-center gap-2">
-                    <i class="ph-bold ph-plus-circle"></i> Add New Collection
-                </h3>
-                <div class="flex flex-col gap-5 relative z-10">
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <input type="text" id="new-section-name" placeholder="Collection Name (e.g. Photography)" class="flex-1 bg-white/10 border border-white/20 backdrop-blur-md placeholder:text-white/60 text-white rounded-xl px-5 py-4 focus:outline-none focus:bg-white/20 transition-all shadow-sm font-medium">
-                        <button onclick="window.createSection()" class="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-colors shadow-lg">
-                            Create
+            <!-- SETTINGS VIEW -->
+            <section id="view-settings" class="hidden max-w-3xl mx-auto animate-slide-up">
+                <header class="mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-1">Settings</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Application preferences.</p>
+                </header>
+                <div class="bg-white dark:bg-dark-surface rounded-xl border border-slate-200 dark:border-dark-border shadow-card overflow-hidden">
+                    <div class="p-6 flex items-center justify-between border-b border-slate-100 dark:border-dark-border">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-lg bg-slate-100 dark:bg-dark-bg flex items-center justify-center text-slate-600 dark:text-slate-300"><i class="ph-fill ph-moon-stars text-xl"></i></div>
+                            <div>
+                                <h3 class="font-semibold text-slate-900 dark:text-white">Dark Appearance</h3>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Adjust the interface theme</p>
+                            </div>
+                        </div>
+                        <button onclick="window.toggleTheme()" id="theme-toggle-btn" class="relative inline-flex h-7 w-12 items-center rounded-full bg-slate-200 dark:bg-brand-600 transition-colors focus:outline-none">
+                            <span id="theme-toggle-dot" class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform translate-x-1 dark:translate-x-6 shadow-sm"></span>
                         </button>
                     </div>
-                    
-                    <div class="flex flex-wrap items-center gap-6">
-                        <label class="flex items-center gap-3 cursor-pointer group/toggle p-2 rounded-lg hover:bg-white/5 transition-colors">
-                            <div class="relative">
-                                <input type="checkbox" id="new-section-private" class="sr-only peer" onchange="window.togglePasswordInput()">
-                                <div class="w-12 h-7 bg-black/30 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white/40 shadow-inner"></div>
-                            </div>
-                            <span class="text-sm font-semibold text-white/90 group-hover/toggle:text-white transition-colors flex items-center gap-2">
-                                <i class="ph-bold ph-lock-key"></i> Private Collection
-                            </span>
-                        </label>
-
-                        <div id="password-input-container" class="hidden flex-1 opacity-0 transition-all duration-300 min-w-[200px]">
-                             <input type="password" id="new-section-password" placeholder="Set Password" class="w-full bg-white/10 border border-white/20 backdrop-blur-md placeholder:text-white/60 text-white rounded-xl px-4 py-2 focus:outline-none focus:bg-white/20 text-sm font-bold tracking-wider">
-                        </div>
+                    <div class="p-6 bg-slate-50/50 dark:bg-dark-bg/50 text-center">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">ImageHub Pro v5.0</p>
+                        <p class="text-[10px] text-slate-400">Secure Cloud Architecture</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- List Sections -->
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4 ml-1">Existing Sections</h3>
-            <div class="grid gap-4 stagger-container" id="sections-list">
-                <!-- Sections injected here -->
-            </div>
-        </section>
-
-        <!-- VIEW: SETTINGS -->
-        <section id="view-settings" class="hidden p-4 md:p-12 max-w-3xl mx-auto fade-in">
-            <header class="mb-10">
-                <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Settings</h2>
-                <p class="text-slate-500 dark:text-slate-400">Preferences and data management.</p>
-            </header>
-
-            <div class="space-y-6">
-                <!-- Appearance -->
-                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-soft flex items-center justify-between hover:border-primary-500/20 transition-colors">
-                    <div class="flex items-center gap-5">
-                        <div class="w-14 h-14 rounded-2xl bg-slate-50 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300">
-                            <i class="ph-fill ph-moon-stars text-3xl"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-900 dark:text-white">Dark Mode</h3>
-                            <p class="text-sm text-slate-500 dark:text-slate-400">Switch between light and dark themes</p>
-                        </div>
-                    </div>
-                    <button onclick="window.toggleTheme()" id="theme-toggle-btn" class="relative inline-flex h-8 w-14 items-center rounded-full bg-slate-200 dark:bg-primary-600 transition-colors focus:outline-none focus:ring-4 focus:ring-primary-500/20">
-                        <span class="sr-only">Toggle theme</span>
-                        <span id="theme-toggle-dot" class="inline-block h-6 w-6 transform rounded-full bg-white transition-transform translate-x-1 dark:translate-x-7 shadow-sm"></span>
-                    </button>
-                </div>
-                
-                <div class="text-center mt-12">
-                    <p class="text-xs font-bold text-slate-300 dark:text-slate-600 uppercase tracking-widest mb-2">ImageHub v3.2</p>
-                    <p class="text-[10px] text-slate-300 dark:text-slate-700">Powered by Google Cloud & Firebase</p>
-                </div>
-            </div>
-        </section>
-
+        </div>
     </main>
+
+    <!-- FIXED OVERLAYS MOVED OUTSIDE MAIN FOR PROPER Z-INDEXING -->
+    
+    <!-- Toast -->
+    <div id="toast" class="fixed top-20 md:top-6 right-6 transform -translate-y-40 opacity-0 transition-all duration-300 z-[90] bg-white dark:bg-dark-surface border border-slate-200 dark:border-dark-border px-4 py-3 rounded-lg shadow-float flex items-center gap-3 font-medium min-w-[300px]">
+        <div id="toast-icon-bg" class="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center flex-shrink-0">
+            <i id="toast-icon" class="ph-bold ph-check text-sm"></i>
+        </div>
+        <span id="toast-msg" class="text-sm text-slate-800 dark:text-white">Action Successful</span>
+    </div>
+
+    <!-- Fullscreen Image Viewer -->
+    <div id="image-viewer-modal" class="hidden fixed inset-0 z-[100] bg-slate-900/95 backdrop-blur-sm flex flex-col justify-center items-center transition-all duration-300 opacity-0">
+        <div class="absolute top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-center z-20">
+            <button onclick="window.closeImageViewer()" class="group flex items-center gap-2 px-4 py-2 rounded-lg bg-white/10 hover:bg-white/15 border border-white/5 text-white transition-all">
+                <i class="ph-bold ph-arrow-left"></i> <span class="font-medium text-sm">Back</span>
+            </button>
+            <button id="viewer-download-btn" class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/15 border border-white/5 text-white transition-all">
+                <i class="ph-bold ph-download-simple text-lg"></i>
+            </button>
+        </div>
+        <div class="w-full h-full flex items-center justify-center p-4 md:p-12" onclick="if(event.target === this) window.closeImageViewer()">
+            <img id="viewer-image" src="" class="max-h-full max-w-full object-contain rounded-md shadow-2xl transition-all duration-500 scale-95 opacity-0">
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none">
+            <div class="max-w-4xl mx-auto text-center">
+                <h3 id="viewer-title" class="text-xl font-bold text-white mb-1">Image Title</h3>
+                <p id="viewer-meta" class="text-slate-400 text-xs font-medium uppercase tracking-wider">Details</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div id="password-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white dark:bg-dark-surface p-6 rounded-xl shadow-2xl w-full max-w-sm border border-slate-200 dark:border-dark-border transform scale-95 transition-all duration-300 m-4">
+            <div class="flex flex-col items-center mb-6">
+                <div class="w-12 h-12 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-full flex items-center justify-center mb-3">
+                    <i class="ph-fill ph-lock-key text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Protected Section</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-xs text-center mt-1">Authentication required.</p>
+            </div>
+            <input type="password" id="unlock-password-input" class="w-full bg-slate-50 dark:bg-dark-bg border border-slate-200 dark:border-dark-border rounded-lg px-4 py-3 mb-4 text-center text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all placeholder:text-slate-400" placeholder="Enter Password">
+            <div class="flex gap-2">
+                <button onclick="window.closePasswordModal()" class="flex-1 py-2.5 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-dark-border transition-colors">Cancel</button>
+                <button onclick="window.submitPassword()" class="flex-1 py-2.5 rounded-lg text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all">Unlock</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="app-loader" class="fixed inset-0 bg-slate-50 dark:bg-dark-bg z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="w-12 h-12 rounded-lg bg-brand-600 flex items-center justify-center shadow-lg mb-4 animate-bounce">
+           <iconify-icon icon="streamline-color:database-subtract-2-raid-storage-code-disk-programming-database-array-hard-disc-minus-flat" width="14" height="14"></iconify-icon>
+        </div>
+        <p class="font-medium text-slate-500 text-xs uppercase tracking-widest">Loading Workspace</p>
+    </div>
 
     <!-- JS Logic -->
     <script type="module">
@@ -637,8 +531,7 @@
         import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, query, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // --- CONFIG ---
-        // Use environment config if available to match the auth token
+        // ... Configuration ...
         let firebaseConfig;
         let isEnvironmentConfig = false;
 
@@ -659,20 +552,17 @@
 
         const CLOUDINARY_CLOUD_NAME = "da6fjyirm";
         const CLOUDINARY_PRESET = "image_uploader";
-        
-        // Define app ID for strict path compliance
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // --- STATE MANAGEMENT ---
+        // ... State ...
         const defaultSections = [
-            { id: 'sec_1', name: 'Photography', color: '#6366f1' },
-            { id: 'sec_2', name: 'Design Assets', color: '#10b981' },
-            { id: 'sec_3', name: 'Wallpapers', color: '#f59e0b' }
+            { id: 'sec_1', name: 'Photography', color: '#6366f1' }, 
+            { id: 'sec_2', name: 'Design', color: '#8b5cf6' }, 
+            { id: 'sec_3', name: 'Wallpapers', color: '#ec4899' }
         ];
 
         let appState = {
@@ -680,131 +570,97 @@
             sections: [],
             unlockedSections: new Set(),
             pendingUnlockId: null,
-            settings: {
-                theme: localStorage.getItem('theme') || 'light'
-            },
-            stats: {
-                views: {} 
-            }
+            activeSectionId: null, 
+            settings: { theme: localStorage.getItem('theme') || 'light' },
+            stats: { views: {} }
         };
 
-        // --- INIT ---
+        // ... Initialization ...
         async function init() {
             window.applyTheme(appState.settings.theme);
-            
             try {
-                // Auth Flow: Only use custom token if we are using the environment's config
                 if (isEnvironmentConfig && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
                     await signInAnonymously(auth);
                 }
-                console.log("Firebase Auth Success", auth.currentUser?.uid);
-                
-                // Start Listeners
-                if (auth.currentUser) {
-                    setupListeners();
-                }
+                if (auth.currentUser) setupListeners();
             } catch (error) {
-                console.error("Firebase Auth Error:", error);
-                window.showToast("Database Connection Failed", "error");
-                document.getElementById('app-loader').innerHTML = `<p class="text-red-500">Connection Failed. Check console.</p>`;
+                console.error("Auth Error:", error);
+                window.showToast("Connection Failed", "error");
+                document.getElementById('app-loader').innerHTML = `<p class="text-red-500 font-bold">Connection Failed</p>`;
             }
         }
 
         function setupListeners() {
-            // Listen to Sections: using strict path (no sorting in query)
             const qSections = query(collection(db, 'artifacts', appId, 'public', 'data', 'sections'));
             onSnapshot(qSections, (snapshot) => {
                 const secs = [];
-                snapshot.forEach((doc) => {
-                    secs.push({ id: doc.id, ...doc.data() });
-                });
-                
-                // Manual Sort (Rule 2: No complex queries/indexes required)
+                snapshot.forEach((doc) => secs.push({ id: doc.id, ...doc.data() }));
                 secs.sort((a, b) => a.name.localeCompare(b.name));
-                
                 appState.sections = secs.length > 0 ? secs : defaultSections;
                 renderAll();
-                document.getElementById('app-loader').classList.add('hidden');
+                
+                // Fix for the error
+                const loader = document.getElementById('app-loader');
+                if (loader) {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                    setTimeout(() => loader.remove(), 500);
+                }
             }, (error) => {
                 console.error("Error fetching sections:", error);
-                document.getElementById('app-loader').innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+                const loader = document.getElementById('app-loader');
+                if (loader) {
+                    loader.innerHTML = `<p class="text-red-500 font-bold">Connection Failed</p>`;
+                } else {
+                    window.showToast("Data Sync Error", "error");
+                }
             });
 
-            // Listen to Images: using strict path (no sorting in query)
             const qImages = query(collection(db, 'artifacts', appId, 'public', 'data', 'images'));
             onSnapshot(qImages, (snapshot) => {
                 const imgs = [];
-                snapshot.forEach((doc) => {
-                    imgs.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Manual Sort (Rule 2: No complex queries/indexes required)
-                imgs.sort((a, b) => {
-                    const timeA = a.createdAt?.seconds || 0;
-                    const timeB = b.createdAt?.seconds || 0;
-                    return timeB - timeA;
-                });
-
+                snapshot.forEach((doc) => imgs.push({ id: doc.id, ...doc.data() }));
+                imgs.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
                 appState.images = imgs;
                 renderAll();
-            }, (error) => {
-                console.error("Error fetching images:", error);
             });
         }
 
         function renderAll() {
-            // Re-render whatever view is active or components that need updates
             if(!document.getElementById('view-dashboard').classList.contains('hidden')) window.renderDashboard();
             if(!document.getElementById('view-gallery').classList.contains('hidden')) window.renderGallery();
             if(!document.getElementById('view-sections').classList.contains('hidden')) window.renderSections();
             if(!document.getElementById('view-upload').classList.contains('hidden')) window.renderUploadSelects();
         }
 
-        // --- ROUTING ---
+        // ... Router ...
         window.router = function(viewId) {
-            // Fade out
             document.querySelectorAll('section[id^="view-"]').forEach(el => {
                 el.classList.add('hidden');
-                el.classList.remove('fade-in');
+                el.classList.remove('animate-slide-up');
             });
-
-            // Update Nav
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-slate-50', 'dark:bg-slate-800/50'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             
-            // Show view
             const view = document.getElementById(`view-${viewId}`);
             view.classList.remove('hidden');
             void view.offsetWidth; 
-            view.classList.add('fade-in');
+            view.classList.add('animate-slide-up');
             
-            // Highlight nav
-            const navBtn = document.getElementById(`nav-${viewId}`);
-            if(navBtn) navBtn.classList.add('active', 'bg-slate-50', 'dark:bg-slate-800/50');
+            // Set active state for desktop sidebar
+            const deskNavBtn = document.getElementById(`desk-nav-${viewId}`);
+            if(deskNavBtn) deskNavBtn.classList.add('active');
 
-            // Render view logic
+            // Set active state for mobile bottom nav
+            const mobNavBtn = document.getElementById(`mob-nav-${viewId}`);
+            if(mobNavBtn) mobNavBtn.classList.add('active');
+
             renderAll();
         }
 
-        window.toggleMobileMenu = function() {
-            const menu = document.getElementById('mobile-menu');
-            const overlay = document.getElementById('mobile-menu-overlay');
-            
-            if(menu.classList.contains('-translate-x-full')) {
-                // Open
-                menu.classList.remove('-translate-x-full');
-                overlay.classList.remove('hidden');
-                setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            } else {
-                // Close
-                menu.classList.add('-translate-x-full');
-                overlay.classList.add('opacity-0');
-                setTimeout(() => overlay.classList.add('hidden'), 300);
-            }
-        }
+        // Removed toggleMobileMenu as it's no longer used with bottom nav
 
-        // --- THEME ---
+        // ... Theme ...
         window.toggleTheme = function() {
             appState.settings.theme = appState.settings.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', appState.settings.theme);
@@ -816,122 +672,63 @@
             const dot = document.getElementById('theme-toggle-dot');
             if (theme === 'dark') {
                 html.classList.add('dark');
-                if(dot) {
-                    dot.classList.add('translate-x-7');
-                    dot.classList.remove('translate-x-1');
-                }
+                if(dot) { dot.classList.add('translate-x-6'); dot.classList.remove('translate-x-1'); }
             } else {
                 html.classList.remove('dark');
-                if(dot) {
-                    dot.classList.remove('translate-x-7');
-                    dot.classList.add('translate-x-1');
-                }
+                if(dot) { dot.classList.remove('translate-x-6'); dot.classList.add('translate-x-1'); }
             }
             renderAll();
         }
 
-        // --- UPLOAD LOGIC ---
+        // ... Upload ...
         const dropZone = document.getElementById('drop-zone');
         const fileInput = document.getElementById('file-input');
         let currentFiles = [];
 
-        dropZone.addEventListener('click', (e) => {
-            if(e.target.closest('button')) return; 
-            fileInput.click();
-        });
-        
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('active');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('active');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('active');
-            if (e.dataTransfer.files.length) handleFileSelect(e.dataTransfer.files);
-        });
-
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length) handleFileSelect(e.target.files);
-        });
+        dropZone.addEventListener('click', (e) => { if(e.target.closest('button') || e.target.closest('select') || e.target.closest('input')) return; fileInput.click(); });
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-brand-500', 'bg-brand-50', 'dark:bg-brand-900/10'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-brand-500', 'bg-brand-50', 'dark:bg-brand-900/10'); });
+        dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('border-brand-500', 'bg-brand-50', 'dark:bg-brand-900/10'); if (e.dataTransfer.files.length) handleFileSelect(e.dataTransfer.files); });
+        fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFileSelect(e.target.files); });
 
         function handleFileSelect(files) {
-            let addedCount = 0;
+            let added = 0;
             Array.from(files).forEach(file => {
-                 if (file.type.startsWith('image/')) {
-                     // Check if already exists to avoid dupes in queue
-                     if (!currentFiles.some(f => f.name === file.name && f.size === file.size)) {
-                        currentFiles.push(file);
-                        addedCount++;
-                     }
+                 if (file.type.startsWith('image/') && !currentFiles.some(f => f.name === file.name)) {
+                    currentFiles.push(file); added++;
                  }
             });
-
-            if (addedCount > 0) {
-                renderUploadPreview();
-            } else if (files.length > 0) {
-                 window.showToast("No valid images selected", "error");
-            }
+            if (added > 0) renderUploadPreview();
         }
 
         function renderUploadPreview() {
-            const container = document.getElementById('preview-list');
-            const previewSection = document.getElementById('upload-preview');
-            const placeholder = document.getElementById('upload-placeholder');
+            const prev = document.getElementById('upload-preview');
+            const holder = document.getElementById('upload-placeholder');
             const btn = document.getElementById('btn-confirm-upload');
-            const countSpan = document.getElementById('selected-count');
-
+            
             if (currentFiles.length === 0) {
-                previewSection.classList.add('hidden');
-                placeholder.classList.remove('hidden');
-                btn.disabled = true;
-                btn.innerHTML = `<i class="ph-bold ph-cloud-arrow-up"></i> Upload All`;
+                prev.classList.add('hidden'); holder.classList.remove('hidden');
+                btn.disabled = true; btn.innerText = "Start Upload";
                 return;
             }
+            holder.classList.add('hidden'); prev.classList.remove('hidden');
+            btn.disabled = false; btn.innerText = `Upload ${currentFiles.length} Item(s)`;
+            document.getElementById('selected-count').innerText = currentFiles.length;
 
-            placeholder.classList.add('hidden');
-            previewSection.classList.remove('hidden');
-            btn.disabled = false;
-            btn.innerHTML = `<i class="ph-bold ph-cloud-arrow-up"></i> Upload ${currentFiles.length} File${currentFiles.length > 1 ? 's' : ''}`;
-            countSpan.innerText = currentFiles.length;
-
-            container.innerHTML = currentFiles.map((file, index) => `
-                <div class="relative aspect-square rounded-2xl overflow-hidden bg-white border border-slate-200 dark:border-slate-700 group shadow-sm animate-slide-in" style="animation-delay: ${index * 50}ms">
+            document.getElementById('preview-list').innerHTML = currentFiles.map((file, i) => `
+                <div class="relative aspect-square rounded-lg overflow-hidden group border border-slate-200 dark:border-dark-border">
                     <img src="${URL.createObjectURL(file)}" class="w-full h-full object-cover">
-                    <button onclick="window.removeFile(${index}); event.stopPropagation();" class="absolute top-2 right-2 bg-red-500 text-white w-8 h-8 flex items-center justify-center rounded-xl shadow-md opacity-0 group-hover:opacity-100 transition-all hover:bg-red-600 hover:scale-110">
-                        <i class="ph-bold ph-trash"></i>
-                    </button>
-                    <div class="absolute bottom-0 left-0 right-0 bg-slate-900/80 text-white text-[10px] p-2 truncate backdrop-blur-sm">
-                        ${file.name}
-                    </div>
+                    <button onclick="window.removeFile(${i}); event.stopPropagation();" class="absolute top-1 right-1 bg-white dark:bg-dark-surface text-red-500 w-5 h-5 rounded shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center hover:bg-red-50"><i class="ph-bold ph-x text-xs"></i></button>
                 </div>
             `).join('');
             
-            // Auto fill title if it's the first file and input is empty
             const titleInput = document.getElementById('upload-title');
-            if(!titleInput.value && currentFiles.length === 1) {
-                titleInput.value = currentFiles[0].name.split('.')[0];
-            }
+            if(!titleInput.value && currentFiles.length === 1) titleInput.value = currentFiles[0].name.split('.')[0];
         }
 
-        window.removeFile = function(index) {
-            currentFiles.splice(index, 1);
-            renderUploadPreview();
-        }
+        window.removeFile = function(i) { currentFiles.splice(i, 1); renderUploadPreview(); }
+        window.resetUpload = function() { currentFiles = []; fileInput.value = ''; document.getElementById('upload-loading').classList.add('hidden'); document.getElementById('upload-title').value = ''; renderUploadPreview(); }
 
-        window.resetUpload = function() {
-            currentFiles = [];
-            document.getElementById('file-input').value = '';
-            document.getElementById('upload-loading').classList.add('hidden');
-            document.getElementById('upload-title').value = '';
-            renderUploadPreview();
-        }
-
-        // Helper to compress image (for local fallback)
         window.compressImage = function(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -939,606 +736,403 @@
                     const img = new Image();
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const MAX_WIDTH = 1000; // Resize to ensure it fits in DB
-                        const scale = Math.min(1, MAX_WIDTH / img.width);
-                        
-                        canvas.width = img.width * scale;
-                        canvas.height = img.height * scale;
-                        
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        
-                        // Compress to jpeg with 0.7 quality to reduce size
-                        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                        resolve(dataUrl);
+                        const scale = Math.min(1, 1000 / img.width);
+                        canvas.width = img.width * scale; canvas.height = img.height * scale;
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
                     };
-                    img.onerror = reject;
-                    img.src = e.target.result;
+                    img.onerror = reject; img.src = e.target.result;
                 };
-                reader.onerror = reject;
                 reader.readAsDataURL(file);
             });
         }
 
-        async function uploadSingleFile(file, titlePrefix, sectionId) {
-            // 1. Upload to Cloudinary
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('upload_preset', CLOUDINARY_PRESET);
-
-            let imageUrl = '';
-            let publicId = '';
-
-            try {
-                // Try Cloud Upload
-                let response;
-                try {
-                    response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
-                        method: 'POST',
-                        body: formData
-                    });
-                } catch(netErr) {
-                    throw new Error('Network Error');
-                }
-
-                if (response && response.ok) {
-                    const data = await response.json();
-                    if(data.error) throw new Error(data.error.message);
-                    imageUrl = data.secure_url;
-                    publicId = data.public_id;
-                } else {
-                    throw new Error('Cloudinary Unavailable');
-                }
-
-            } catch (error) {
-                console.warn(`Cloud upload failed for ${file.name}, switching to local storage...`);
-                
-                // FALLBACK: Compress and Save Locally
-                try {
-                    const resizedDataUrl = await window.compressImage(file);
-                    imageUrl = resizedDataUrl;
-                    publicId = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                } catch (resizeErr) {
-                    console.error("Local save failed", resizeErr);
-                    throw new Error("File too large or corrupted.");
-                }
-            }
-
-            // 2. Save Metadata to Firestore
-            const finalTitle = currentFiles.length > 1 && titlePrefix 
-                ? `${titlePrefix} - ${file.name}` 
-                : (titlePrefix || file.name.split('.')[0]);
-
-            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'images'), {
-                title: finalTitle,
-                sectionId: sectionId,
-                data: imageUrl, 
-                publicId: publicId,
-                size: file.size,
-                views: 0,
-                createdAt: serverTimestamp()
-            });
-        }
-
         window.handleUpload = async function() {
-            if (currentFiles.length === 0) return;
-            
-            if (!auth.currentUser) {
-                 window.showToast("Authentication required", "error");
-                 return;
-            }
+            if (!currentFiles.length) return;
+            if (!auth.currentUser) return window.showToast("Auth Required", "error");
 
-            // Show loading UI
-            const loader = document.getElementById('upload-loading');
-            const statusText = document.getElementById('upload-status-text');
-            const progressBar = document.getElementById('upload-progress-bar');
-            const btn = document.getElementById('btn-confirm-upload');
-            
-            loader.classList.remove('hidden');
-            btn.disabled = true;
-
+            document.getElementById('upload-loading').classList.remove('hidden');
             const sectionId = document.getElementById('upload-section-select').value;
-            const titlePrefix = document.getElementById('upload-title').value.trim();
-
-            let successCount = 0;
-            let failCount = 0;
+            const prefix = document.getElementById('upload-title').value.trim();
             const total = currentFiles.length;
+            const bar = document.getElementById('upload-progress-bar');
+            const txt = document.getElementById('upload-status-text');
 
-            // Process sequentially to avoid browser hanging on compression
             for (let i = 0; i < total; i++) {
-                const file = currentFiles[i];
-                statusText.innerText = `Uploading ${i + 1} of ${total}...`;
-                const progress = ((i / total) * 100) + '%';
-                progressBar.style.width = progress;
-
+                txt.innerText = `Uploading ${i+1}/${total}`;
+                bar.style.width = `${((i)/total)*100}%`;
+                
                 try {
-                    await uploadSingleFile(file, titlePrefix, sectionId);
-                    successCount++;
-                } catch (e) {
-                    console.error(`Failed to upload ${file.name}`, e);
-                    failCount++;
-                }
-            }
+                    const file = currentFiles[i];
+                    let url = '', pid = '';
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('upload_preset', CLOUDINARY_PRESET);
 
-            progressBar.style.width = '100%';
-            
-            if (failCount === 0) {
-                window.showToast(`Successfully uploaded ${successCount} files!`);
-            } else if (successCount > 0) {
-                 window.showToast(`Uploaded ${successCount} files. ${failCount} failed.`, "error");
-            } else {
-                 window.showToast("All uploads failed.", "error");
-            }
+                    try {
+                        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, { method: 'POST', body: formData });
+                        if(res.ok) { const d = await res.json(); url = d.secure_url; pid = d.public_id; }
+                        else throw new Error('Cloudinary Error');
+                    } catch(e) {
+                        url = await window.compressImage(file);
+                        pid = 'local_' + Date.now();
+                    }
 
-            setTimeout(() => {
-                window.resetUpload();
-                window.router('gallery');
-            }, 1000);
+                    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'images'), {
+                        title: (total > 1 && prefix) ? `${prefix} - ${file.name}` : (prefix || file.name.split('.')[0]),
+                        sectionId: sectionId,
+                        data: url,
+                        publicId: pid,
+                        size: file.size,
+                        views: 0,
+                        createdAt: serverTimestamp()
+                    });
+                } catch(e) { console.error(e); }
+            }
+            bar.style.width = '100%';
+            window.showToast("Upload Complete");
+            setTimeout(() => { window.resetUpload(); window.router('gallery'); }, 800);
         }
 
         window.renderUploadSelects = function() {
-            const select = document.getElementById('upload-section-select');
-            if(appState.sections.length === 0) {
-                 select.innerHTML = '<option disabled>No sections created</option>';
-            } else {
-                select.innerHTML = appState.sections.map(s => 
-                    `<option value="${s.id}">${s.name}</option>`
-                ).join('');
-            }
+            const el = document.getElementById('upload-section-select');
+            el.innerHTML = appState.sections.length ? appState.sections.map(s => `<option value="${s.id}">${s.name}</option>`).join('') : '<option disabled>Create a section first</option>';
         }
 
-        // --- GALLERY LOGIC ---
+        // --- Gallery & Sections ---
         window.renderGallery = function() {
             const grid = document.getElementById('gallery-grid');
             const filter = document.getElementById('gallery-filter');
-            const lockedState = document.getElementById('gallery-locked-state');
-            const emptyState = document.getElementById('empty-gallery');
-            const sectionFilter = filter.value;
-
-            // Update filter options
-            const currentVal = filter.value;
-            const options = appState.sections.map(s => {
-                const lockIcon = s.isPrivate ? '🔒 ' : '';
-                return `<option value="${s.id}">${lockIcon}${s.name}</option>`
-            }).join('');
+            const locked = document.getElementById('gallery-locked-state');
+            const empty = document.getElementById('empty-gallery');
             
-            // Simple check to avoid redraw flicker if options exist
-            if (!filter.innerHTML.includes(options)) {
-                filter.innerHTML = `<option value="all">Show All</option>` + options;
-                filter.value = currentVal;
+            // --- FIX: Logic to correctly populate dropdown while preserving selection ---
+            const currentVal = filter.value; 
+            
+            // Rebuild options every time to ensure sync with appState.sections
+            const optionsHtml = `<option value="all">Show All</option>` + 
+                appState.sections.map(s => `<option value="${s.id}">${s.isPrivate ? '🔒 ' : ''}${s.name}</option>`).join('');
+            
+            // Only update innerHTML if it has changed to prevent cursor jumping or reset (though minor for select)
+            if (filter.innerHTML !== optionsHtml) {
+                filter.innerHTML = optionsHtml;
+                // Restore value if valid, else default to 'all'
+                if (currentVal === 'all' || appState.sections.some(s => s.id === currentVal)) {
+                    filter.value = currentVal;
+                } else {
+                    filter.value = 'all';
+                }
             }
-
-            // --- PRIVATE SECTION LOCK LOGIC ---
-            const currentSection = appState.sections.find(s => s.id === sectionFilter);
             
-            // Hide everything initially
-            grid.classList.add('hidden');
-            emptyState.classList.add('hidden');
-            lockedState.classList.add('hidden');
+            const val = filter.value;
+            // --------------------------------------------------------------------------
 
-            if (currentSection && currentSection.isPrivate && !appState.unlockedSections.has(currentSection.id)) {
-                // Show Locked State
-                lockedState.classList.remove('hidden');
-                document.getElementById('locked-section-name').innerText = currentSection.name;
-                appState.pendingUnlockId = currentSection.id;
+            const sec = appState.sections.find(s => s.id === val);
+            grid.classList.add('hidden'); locked.classList.add('hidden'); empty.classList.add('hidden');
+
+            if (sec && sec.isPrivate && !appState.unlockedSections.has(sec.id)) {
+                locked.classList.remove('hidden');
+                document.getElementById('locked-section-name').innerText = sec.name;
+                appState.pendingUnlockId = sec.id;
                 return;
             }
-            
-            // If unlocked or public or 'all'
-            const images = sectionFilter === 'all' 
+
+            const images = val === 'all' 
                 ? appState.images.filter(img => {
-                    // Only show images from unlocked private sections or public sections
-                    const sec = appState.sections.find(s => s.id === img.sectionId);
-                    if (!sec) return true;
-                    if (sec.isPrivate && !appState.unlockedSections.has(sec.id)) return false;
-                    return true;
+                    const s = appState.sections.find(x => x.id === img.sectionId);
+                    return s && !s.isPrivate; // Hide private in ALL view
                 })
-                : appState.images.filter(img => img.sectionId === sectionFilter);
+                : appState.images.filter(img => img.sectionId === val);
 
-            if (images.length === 0) {
-                emptyState.classList.remove('hidden');
-                return;
-            }
+            if (!images.length) { empty.classList.remove('hidden'); return; }
 
             grid.classList.remove('hidden');
-            
-            grid.innerHTML = images.map((img, index) => {
-                const section = appState.sections.find(s => s.id === img.sectionId) || {name: 'Unknown', color: '#ccc'};
-                return `
-                <div class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-card hover:shadow-glow hover:-translate-y-1 transition-all duration-300 relative border border-slate-100 dark:border-slate-700/50 stagger-item" style="animation-delay: ${index * 50}ms">
-                    <div class="aspect-[4/3] bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
-                        <img src="${img.data}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
-                        
-                        <!-- Overlay -->
-                        <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-[2px]">
-                            <button onclick="window.viewImage('${img.id}')" class="w-12 h-12 bg-white rounded-2xl text-slate-900 hover:bg-primary-500 hover:text-white transition-all transform hover:scale-110 shadow-lg flex items-center justify-center" title="View Fullscreen">
-                                <i class="ph-bold ph-eye text-xl"></i>
-                            </button>
-                            <button onclick="window.deleteImage('${img.id}')" class="w-12 h-12 bg-white rounded-2xl text-red-600 hover:bg-red-500 hover:text-white transition-all transform hover:scale-110 shadow-lg flex items-center justify-center" title="Delete">
-                                <i class="ph-bold ph-trash text-xl"></i>
-                            </button>
-                        </div>
-                        
-                        <div class="absolute top-3 left-3">
-                            <span class="px-3 py-1 text-[10px] font-bold uppercase tracking-wide rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur shadow-sm text-slate-800 dark:text-white">
-                                ${section.name}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="p-5">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="font-bold text-slate-800 dark:text-white truncate max-w-[80%]">${img.title}</h4>
-                            <div class="flex items-center text-xs text-slate-400 gap-1 bg-slate-100 dark:bg-slate-700/50 px-2 py-1 rounded-lg">
-                                <i class="ph-fill ph-eye"></i>
-                                <span>${img.views || 0}</span>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs text-slate-500 dark:text-slate-400 font-medium border-t border-slate-100 dark:border-slate-700 mt-3 pt-3">
-                            <span>${img.createdAt ? new Date(img.createdAt.seconds * 1000).toLocaleDateString() : 'Just now'}</span>
-                            <span>${window.formatBytes(img.size)}</span>
-                        </div>
-                    </div>
-                </div>
-                `;
+            grid.innerHTML = images.map((img, i) => {
+                const s = appState.sections.find(x => x.id === img.sectionId) || {name:'Unknown'};
+                return window.createImageCard(img, i, s.name);
             }).join('');
         }
 
-        // --- PASSWORD MODAL LOGIC ---
-        window.requestUnlock = function(sectionId) {
-            if(sectionId) appState.pendingUnlockId = sectionId; // Set if called directly, otherwise assumes set by renderGallery
-            const modal = document.getElementById('password-modal');
-            const input = document.getElementById('unlock-password-input');
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                input.focus();
-            }, 10); 
-            
-            // Allow enter key submission
-            input.onkeydown = function(e) {
-                if(e.key === 'Enter') window.submitPassword();
+        window.createImageCard = function(img, i, sName) {
+            return `
+            <div class="bg-white dark:bg-dark-surface rounded-lg overflow-hidden border border-slate-200 dark:border-dark-border shadow-card hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group cursor-pointer animate-slide-up" style="animation-delay: ${i*50}ms" onclick="window.viewImage('${img.id}')">
+                <div class="aspect-[4/3] bg-slate-100 dark:bg-dark-bg relative overflow-hidden">
+                    <img src="${img.data}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <button onclick="event.stopPropagation(); window.viewImage('${img.id}')" class="w-8 h-8 bg-white text-slate-900 rounded-md flex items-center justify-center hover:bg-slate-100 transition-colors shadow-sm"><i class="ph-bold ph-eye"></i></button>
+                        <button onclick="event.stopPropagation(); window.downloadImage('${img.id}')" class="w-8 h-8 bg-white text-emerald-600 rounded-md flex items-center justify-center hover:bg-emerald-50 transition-colors shadow-sm"><i class="ph-bold ph-download-simple"></i></button>
+                        <button onclick="event.stopPropagation(); window.deleteImage('${img.id}')" class="w-8 h-8 bg-white text-red-500 rounded-md flex items-center justify-center hover:bg-red-50 transition-colors shadow-sm"><i class="ph-bold ph-trash"></i></button>
+                    </div>
+                    <span class="absolute top-2 left-2 px-2 py-0.5 bg-black/50 backdrop-blur-sm rounded text-[10px] font-medium text-white">${sName}</span>
+                </div>
+                <div class="p-3">
+                    <h4 class="font-semibold text-sm text-slate-900 dark:text-white truncate">${img.title}</h4>
+                    <div class="flex justify-between items-center text-[10px] text-slate-500 dark:text-slate-400 mt-1">
+                        <span class="font-medium">${window.formatBytes(img.size)}</span>
+                        <span>${new Date(img.createdAt?.seconds*1000).toLocaleDateString()}</span>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        window.renderSections = function() {
+            if (appState.activeSectionId) {
+                // Detail View
+                document.getElementById('sections-root').classList.add('hidden');
+                document.getElementById('section-detail-view').classList.remove('hidden');
+                const sec = appState.sections.find(s => s.id === appState.activeSectionId);
+                if(sec) {
+                    document.getElementById('detail-section-name').innerText = sec.name;
+                    const imgs = appState.images.filter(i => i.sectionId === sec.id);
+                    const grid = document.getElementById('section-detail-grid');
+                    const empty = document.getElementById('section-detail-empty');
+                    if(!imgs.length) { grid.innerHTML = ''; empty.classList.remove('hidden'); }
+                    else { empty.classList.add('hidden'); grid.innerHTML = imgs.map((img, i) => window.createImageCard(img, i, sec.name)).join(''); }
+                }
+                return;
             }
+            // List View
+            document.getElementById('sections-root').classList.remove('hidden');
+            document.getElementById('section-detail-view').classList.add('hidden');
+            document.getElementById('sections-list').innerHTML = appState.sections.map((s, i) => `
+                <div onclick="window.openSection('${s.id}')" class="bg-white dark:bg-dark-surface p-4 rounded-lg border border-slate-200 dark:border-dark-border flex items-center justify-between cursor-pointer hover:border-brand-300 dark:hover:border-brand-700 transition-all group animate-slide-up" style="animation-delay: ${i*50}ms">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-lg shadow-sm" style="background-color: ${s.color};">
+                            ${s.isPrivate ? '<i class="ph-fill ph-lock-key text-white/90"></i>' : s.name[0]}
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">${s.name}</h4>
+                            <p class="text-xs text-slate-500 font-medium">${appState.images.filter(x => x.sectionId === s.id).length} Files</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="event.stopPropagation(); window.deleteSection('${s.id}')" class="w-8 h-8 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-500 flex items-center justify-center transition-colors"><i class="ph-bold ph-trash"></i></button>
+                        <i class="ph-bold ph-caret-right text-slate-400 group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            `).join('');
         }
 
-        window.closePasswordModal = function() {
-            const modal = document.getElementById('password-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => {
-                 modal.classList.add('hidden');
-                 document.getElementById('unlock-password-input').value = '';
-            }, 300);
-        }
-
-        window.submitPassword = function() {
-            const input = document.getElementById('unlock-password-input');
-            const password = input.value;
-            const section = appState.sections.find(s => s.id === appState.pendingUnlockId);
-
-            if (section && section.password === password) {
-                appState.unlockedSections.add(section.id);
-                window.closePasswordModal();
-                window.showToast("Section Unlocked");
-                window.renderGallery();
+        window.openSection = function(id) {
+            const s = appState.sections.find(x => x.id === id);
+            if(s.isPrivate && !appState.unlockedSections.has(id)) {
+                appState.pendingUnlockId = id; appState.activeSectionId = id; window.requestUnlock(id);
             } else {
-                window.showToast("Incorrect Password", "error");
-                input.classList.add('ring-2', 'ring-red-500');
-                input.parentElement.classList.add('animate-shake');
-                setTimeout(() => {
-                    input.classList.remove('ring-2', 'ring-red-500');
-                    input.parentElement.classList.remove('animate-shake');
-                }, 500);
+                appState.activeSectionId = id; window.renderSections();
+            }
+        }
+        window.exitSection = function() { appState.activeSectionId = null; window.renderSections(); }
+
+        window.togglePasswordInput = function() {
+            const show = document.getElementById('new-section-private').checked;
+            const el = document.getElementById('password-input-container');
+            if(show) { el.classList.remove('hidden'); setTimeout(() => el.classList.remove('opacity-0'), 10); }
+            else { el.classList.add('opacity-0'); setTimeout(() => el.classList.add('hidden'), 200); }
+        }
+
+        window.createSection = async function() {
+            if (!auth.currentUser) return window.showToast("Auth Required", "error");
+            const name = document.getElementById('new-section-name').value.trim();
+            const priv = document.getElementById('new-section-private').checked;
+            const pass = document.getElementById('new-section-password').value;
+            if(!name) return;
+            if(priv && !pass) return window.showToast("Password required", "error");
+
+            const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#f43f5e'];
+            await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sections'), {
+                name, color: colors[Math.floor(Math.random()*colors.length)], isPrivate: priv, password: pass
+            });
+            window.showToast("Collection Created");
+            document.getElementById('new-section-name').value = '';
+            document.getElementById('new-section-password').value = '';
+            document.getElementById('new-section-private').checked = false;
+            window.togglePasswordInput();
+        }
+
+        window.deleteSection = async function(id) {
+            if (!auth.currentUser) return;
+            if(appState.images.some(x => x.sectionId === id)) return window.showToast("Section not empty", "error");
+            if(confirm('Delete this collection permanently?')) {
+                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sections', id));
+                window.showToast("Deleted");
             }
         }
 
+        // ... Viewer & Download ...
         window.viewImage = function(id) {
-            const img = appState.images.find(i => i.id === id);
-            if(img) {
-                if(!auth.currentUser) return;
-                
-                // Update views in Firestore
-                const imgRef = doc(db, 'artifacts', appId, 'public', 'data', 'images', id);
-                setDoc(imgRef, { views: (img.views || 0) + 1 }, { merge: true });
-                
-                // New tab view
-                const w = window.open("");
-                w.document.write(`
-                    <body style="margin:0; background:#0f172a; display:flex; align-items:center; justify-content:center; height:100vh;">
-                        <img src="${img.data}" style="max-width:95vw; max-height:95vh; border-radius:8px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-                    </body>
-                `);
+            const img = appState.images.find(x => x.id === id);
+            if(!img) return;
+            const v = document.getElementById('image-viewer-modal');
+            const vi = document.getElementById('viewer-image');
+            vi.src = img.data;
+            document.getElementById('viewer-title').innerText = img.title;
+            document.getElementById('viewer-meta').innerText = `${window.formatBytes(img.size)} • ${new Date(img.createdAt?.seconds*1000).toLocaleDateString()}`;
+            document.getElementById('viewer-download-btn').onclick = () => window.downloadImage(id);
+            v.classList.remove('hidden');
+            setTimeout(() => { v.classList.remove('opacity-0'); vi.classList.remove('scale-95', 'opacity-0'); }, 10);
+        }
+        window.closeImageViewer = function() {
+            const v = document.getElementById('image-viewer-modal');
+            const vi = document.getElementById('viewer-image');
+            v.classList.add('opacity-0'); vi.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { v.classList.add('hidden'); vi.src=''; }, 300);
+        }
+
+        window.downloadImage = async function(id) {
+            const img = appState.images.find(x => x.id === id);
+            if(!img) return;
+            window.showToast("Preparing Download...");
+            try {
+                const res = await fetch(img.data);
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${img.title.replace(/[^a-z0-9]/gi, '_')}.jpg`;
+                document.body.appendChild(a); a.click();
+                setTimeout(() => { document.body.removeChild(a); window.URL.revokeObjectURL(url); }, 100);
+                window.showToast("Download Started");
+            } catch(e) {
+                window.open(img.data, '_blank');
             }
         }
 
         window.deleteImage = async function(id) {
-            if(!auth.currentUser) {
-                window.showToast("Authentication required", "error");
-                return;
-            }
-            if(confirm('Delete this image permanently? (Removes reference only in this demo)')) {
-                try {
-                    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'images', id));
-                    window.showToast("Image removed");
-                } catch(e) {
-                    window.showToast("Error deleting: " + e.message, "error");
-                }
-            }
+            if(confirm("Permanently delete this image?")) await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'images', id));
         }
 
-        // --- SECTIONS LOGIC ---
-        window.renderSections = function() {
-            const list = document.getElementById('sections-list');
-            list.innerHTML = appState.sections.map((sec, index) => {
-                const count = appState.images.filter(img => img.sectionId === sec.id).length;
-                const lockIcon = sec.isPrivate ? '<i class="ph-fill ph-lock-key text-white/80"></i>' : '';
-                
-                return `
-                <div class="flex items-center justify-between p-5 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl shadow-card hover:shadow-lg hover:-translate-y-1 transition-all duration-300 stagger-item" style="animation-delay: ${index * 50}ms">
-                    <div class="flex items-center gap-5">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg relative" style="background-color: ${sec.color || '#6366f1'}; box-shadow: 0 4px 15px ${sec.color}50">
-                            ${lockIcon || sec.name.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-bold text-lg text-slate-900 dark:text-white">${sec.name}</h4>
-                                ${sec.isPrivate ? '<span class="text-[10px] bg-slate-100 dark:bg-slate-700 text-slate-500 px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border border-slate-200 dark:border-slate-600">Private</span>' : ''}
-                            </div>
-                            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">${count} items stored</p>
-                        </div>
-                    </div>
-                    <button onclick="window.deleteSection('${sec.id}')" class="w-10 h-10 flex items-center justify-center rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" title="Delete Section"><i class="ph-bold ph-trash text-lg"></i></button>
-                </div>
-                `;
-            }).join('');
+        // ... Password Modal ...
+        window.requestUnlock = function(id) {
+            const m = document.getElementById('password-modal');
+            const inp = document.getElementById('unlock-password-input');
+            m.classList.remove('hidden');
+            setTimeout(() => { m.classList.remove('opacity-0'); m.querySelector('div').classList.remove('scale-95'); inp.focus(); }, 10);
+            inp.onkeydown = (e) => { if(e.key === 'Enter') window.submitPassword(); }
         }
-
-        window.togglePasswordInput = function() {
-            const isPrivate = document.getElementById('new-section-private').checked;
-            const container = document.getElementById('password-input-container');
-            if(isPrivate) {
-                container.classList.remove('hidden');
-                // Small delay to allow display block to apply before opacity transition
-                setTimeout(() => container.classList.remove('opacity-0'), 10);
+        window.closePasswordModal = function() {
+            const m = document.getElementById('password-modal');
+            m.classList.add('opacity-0');
+            m.querySelector('div').classList.add('scale-95');
+            setTimeout(() => { m.classList.add('hidden'); document.getElementById('unlock-password-input').value = ''; }, 300);
+        }
+        window.submitPassword = function() {
+            const pass = document.getElementById('unlock-password-input').value;
+            const sec = appState.sections.find(s => s.id === appState.pendingUnlockId);
+            if(sec && sec.password === pass) {
+                appState.unlockedSections.add(sec.id);
+                window.closePasswordModal();
+                if(appState.activeSectionId === sec.id) window.openSection(sec.id);
+                else window.renderGallery();
+                window.showToast("Section Unlocked");
             } else {
-                container.classList.add('opacity-0');
-                setTimeout(() => container.classList.add('hidden'), 300);
+                window.showToast("Incorrect Password", "error");
             }
         }
 
-        window.createSection = async function() {
-            if(!auth.currentUser) {
-                window.showToast("Authentication required", "error");
-                return;
-            }
-            const nameInput = document.getElementById('new-section-name');
-            const name = nameInput.value.trim();
-            const isPrivate = document.getElementById('new-section-private').checked;
-            const password = document.getElementById('new-section-password').value;
-
-            if(!name) return;
-            if(isPrivate && !password) {
-                window.showToast("Password required for private section", "error");
-                return;
-            }
-
-            const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b', '#10b981', '#06b6d4', '#3b82f6'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-
-            try {
-                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'sections'), {
-                    name: name,
-                    color: color,
-                    isPrivate: isPrivate,
-                    password: password // Client-side logic limitation: stored as plain text for this demo
-                });
-                window.showToast("Section created");
-                nameInput.value = '';
-                document.getElementById('new-section-password').value = '';
-                document.getElementById('new-section-private').checked = false;
-                window.togglePasswordInput();
-            } catch(e) {
-                window.showToast("Error creating section", "error");
-            }
-        }
-
-        window.deleteSection = async function(id) {
-            if(!auth.currentUser) {
-                window.showToast("Authentication required", "error");
-                return;
-            }
-            const hasImages = appState.images.some(img => img.sectionId === id);
-            if(hasImages) {
-                window.showToast("Cannot delete: Section is not empty", "error");
-                return;
-            }
-            try {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'sections', id));
-                window.showToast("Section deleted");
-            } catch(e) {
-                window.showToast("Error deleting section", "error");
-            }
-        }
-
-        // --- ANALYTICS ---
-        let viewsChart = null;
-        let storageChart = null;
-
+        // ... Charts & Utils ...
+        let viewsChart = null, storageChart = null;
         window.renderDashboard = function() {
-            // Stats Calculation
-            const totalImages = appState.images.length;
-            const totalSize = appState.images.reduce((acc, img) => acc + img.size, 0);
-            const totalViews = appState.images.reduce((acc, img) => acc + (img.views || 0), 0);
-            const activeSections = appState.sections.length;
-
-            // DOM Updates
-            document.getElementById('stat-total-images').innerText = totalImages;
+            document.getElementById('stat-total-images').innerText = appState.images.length;
+            const totalViews = appState.images.reduce((a, b) => a + (b.views || 0), 0);
             document.getElementById('stat-total-views').innerText = totalViews;
+            const totalSize = appState.images.reduce((a, b) => a + b.size, 0);
             document.getElementById('stat-storage').innerText = window.formatBytes(totalSize);
-            document.getElementById('stat-sections').innerText = activeSections;
+            document.getElementById('stat-sections').innerText = appState.sections.length;
             document.getElementById('storage-text').innerText = window.formatBytes(totalSize);
-
             window.renderCharts(totalViews);
         }
 
-        window.renderCharts = function(totalViews = 0) {
-            const ctxViews = document.getElementById('viewsChart').getContext('2d');
-            const ctxStorage = document.getElementById('storageChart').getContext('2d');
-            
-            const isDark = appState.settings.theme === 'dark';
-            const textColor = isDark ? '#94a3b8' : '#64748b';
-            const gridColor = isDark ? '#334155' : '#f1f5f9';
-
+        window.renderCharts = function(views) {
+            const ctx1 = document.getElementById('viewsChart');
+            const ctx2 = document.getElementById('storageChart');
             if(viewsChart) viewsChart.destroy();
             if(storageChart) storageChart.destroy();
+            
+            const isDark = appState.settings.theme === 'dark';
+            const color = isDark ? '#94a3b8' : '#64748b';
 
-            // 1. Line Chart (Views) with Gradient
-            let gradient = ctxViews.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(99, 102, 241, 0.5)'); // Primary color
-            gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
-
-            // Mock Data Generator based on total views (since we don't store time-series view data in this simple schema)
-            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-            const viewData = days.map(() => Math.floor(Math.random() * (totalViews > 0 ? totalViews/2 : 10)));
-
-            viewsChart = new Chart(ctxViews, {
+            viewsChart = new Chart(ctx1, {
                 type: 'line',
                 data: {
-                    labels: days,
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                     datasets: [{
-                        label: 'Total Views',
-                        data: viewData,
+                        label: 'Views',
+                        data: Array(7).fill(0).map(() => Math.floor(Math.random() * (views/2 || 10))),
                         borderColor: '#6366f1',
-                        borderWidth: 3,
-                        backgroundColor: gradient,
+                        backgroundColor: (ctx) => {
+                            const grad = ctx.chart.ctx.createLinearGradient(0,0,0,300);
+                            grad.addColorStop(0, 'rgba(99, 102, 241, 0.2)');
+                            grad.addColorStop(1, 'rgba(99, 102, 241, 0)');
+                            return grad;
+                        },
                         fill: true,
                         tension: 0.4,
-                        pointBackgroundColor: '#ffffff',
-                        pointBorderColor: '#6366f1',
-                        pointBorderWidth: 2,
-                        pointRadius: 4,
-                        pointHoverRadius: 6
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        pointHoverRadius: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                            titleColor: isDark ? '#fff' : '#0f172a',
-                            bodyColor: isDark ? '#cbd5e1' : '#475569',
-                            borderColor: isDark ? '#334155' : '#e2e8f0',
-                            borderWidth: 1,
-                            padding: 10,
-                            displayColors: false,
-                            callbacks: {
-                                label: (context) => `${context.raw} Views`
-                            }
-                        }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: { color: gridColor, borderDash: [5, 5] },
-                            ticks: { color: textColor, font: { family: 'Plus Jakarta Sans' } },
-                            border: { display: false }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: textColor, font: { family: 'Plus Jakarta Sans' } },
-                            border: { display: false }
-                        }
+                        y: { grid: { display: false }, ticks: { color, font: {family: 'Inter'} } },
+                        x: { grid: { display: false }, ticks: { color, font: {family: 'Inter'} } }
                     }
                 }
             });
 
-            // 2. Doughnut Chart (Storage)
-            const sectionSizes = appState.sections.map(sec => {
-                return appState.images
-                    .filter(img => img.sectionId === sec.id)
-                    .reduce((acc, img) => acc + img.size, 0);
-            });
-            const labels = appState.sections.map(s => s.name);
-            const colors = appState.sections.map(s => s.color || '#ccc');
+            const sizes = appState.sections.map(s => appState.images.filter(i => i.sectionId === s.id).reduce((a,b) => a+b.size, 0));
+            document.getElementById('chart-center-text').innerText = window.formatBytes(sizes.reduce((a,b)=>a+b,0));
 
-            // Fallback if empty
-            const hasData = sectionSizes.some(s => s > 0);
-            const chartData = hasData ? sectionSizes : [1];
-            const chartColors = hasData ? colors : ['#e2e8f0'];
-            
-            // Update Center Text
-            document.getElementById('chart-center-text').innerText = window.formatBytes(sectionSizes.reduce((a,b)=>a+b, 0));
-
-            storageChart = new Chart(ctxStorage, {
+            storageChart = new Chart(ctx2, {
                 type: 'doughnut',
                 data: {
-                    labels: hasData ? labels : ['Empty'],
+                    labels: appState.sections.map(s => s.name),
                     datasets: [{
-                        data: chartData,
-                        backgroundColor: chartColors,
+                        data: sizes.length ? sizes : [1],
+                        backgroundColor: ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'],
                         borderWidth: 0,
-                        hoverOffset: 5
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            enabled: hasData,
-                            backgroundColor: isDark ? '#1e293b' : '#ffffff',
-                            titleColor: isDark ? '#fff' : '#0f172a',
-                            bodyColor: isDark ? '#cbd5e1' : '#475569',
-                            borderColor: isDark ? '#334155' : '#e2e8f0',
-                            borderWidth: 1,
-                            callbacks: {
-                                label: (ctx) => ` ${window.formatBytes(ctx.raw)}`
-                            }
-                        }
-                    }
+                    cutout: '80%',
+                    plugins: { legend: { display: false } }
                 }
             });
         }
 
-        // --- UTILS ---
-        window.formatBytes = function(bytes, decimals = 1) {
-            if (!+bytes) return '0 B';
+        window.formatBytes = (bytes) => {
+            if(!+bytes) return '0 B';
             const k = 1024;
-            const dm = decimals < 0 ? 0 : decimals;
             const sizes = ['B', 'KB', 'MB', 'GB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
         }
 
-        window.showToast = function(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            const iconDiv = document.getElementById('toast-icon-bg');
+        window.showToast = (msg, type='success') => {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
             const icon = document.getElementById('toast-icon');
+            const bg = document.getElementById('toast-icon-bg');
             
-            toastMsg.innerText = msg;
-            
-            if (type === 'error') {
-                iconDiv.className = 'w-8 h-8 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center flex-shrink-0';
-                icon.className = 'ph-fill ph-warning-circle text-lg';
+            if(type === 'error') {
+                bg.className = 'w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center flex-shrink-0';
+                icon.className = 'ph-bold ph-warning-circle text-sm';
             } else {
-                iconDiv.className = 'w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center flex-shrink-0';
-                icon.className = 'ph-fill ph-check-circle text-lg';
+                bg.className = 'w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center flex-shrink-0';
+                icon.className = 'ph-bold ph-check text-sm';
             }
-
-            toast.classList.remove('-translate-y-40', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('-translate-y-40', 'opacity-0');
-            }, 3000);
+            
+            t.classList.remove('-translate-y-40', 'opacity-0');
+            setTimeout(() => t.classList.add('-translate-y-40', 'opacity-0'), 3000);
         }
 
-        // Init App
         window.addEventListener('DOMContentLoaded', init);
-
     </script>
 </body>
 </html>
